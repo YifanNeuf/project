@@ -162,7 +162,7 @@ function UploadDemand() {
                   </a>
                   <br />
                   <div style={passwordStyle}>
-                    <ButtonLink name="修改密碼" />
+                    <ButtonLink name="修改密碼" to="/userUpdatePassword"/>
                     &nbsp;
                     <ButtonLink name="修改資料" />
                   </div>

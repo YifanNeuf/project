@@ -6,13 +6,17 @@ import Form from 'react-bootstrap/Form';
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
 import emailjs from 'emailjs-com';
+import { useNavigate } from "react-router-dom";
 
 function ManagerProveMail() {
     // const form = useRef();
+    const navigate = useNavigate();
+
+    // localstorge 網址傳值
     let org = localStorage.getItem('proveOrg');
     console.log("localstorage",org);
     org = JSON.parse(org);
-    console.log("localstorage",org);
+    console.log("localstorag`e",org);
 
     const [values, setValues] = useState({
         toName: org.name,
@@ -49,6 +53,8 @@ function ManagerProveMail() {
             .then((result) => {
                 console.log(result.text);
                 alert("信件寄送成功！")
+                // window.location.reload();
+                navigate("/managerProve");
             }, (error) => {
                 console.log(error.text);
                 alert("信件寄送失敗，請再寄送一次！")

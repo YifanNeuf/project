@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ButtonLink from "../elements/button";
 import ReturnHome from "../elements/returnHome";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import Input from "../elements/input";
 import app from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
@@ -22,10 +22,12 @@ function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
-        navigate("/loginIn");
+        console.log(user.password);
+        // navigate("/loginIn");
         setIsLoading(false);
-        alert("註冊成功，正在前往登入頁面...")
+        alert("註冊成功！");
+        verifiedEmail(user);
+        // alert("正在前往登入頁面...");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -45,8 +47,26 @@ function Login() {
             default:
         }
         setIsLoading(false);
-      });
+      })
   };
+
+  function verifiedEmail(user) {
+    if (user.emailVerified === false) {
+      sendEmailVerification(auth.currentUser)
+        .then(() => {
+          // 驗證信發送完成
+          window.location.reload();
+          alert('驗證信已發送到您的信箱，請查收。即將前往登入頁面...')
+        }).catch(error => {
+          // 驗證信發送失敗
+          console.log(error.message);
+          alert('驗證信發送失敗。')
+      })
+    }
+    else {
+      alert("未能抓到user資訊");
+    }
+  }
 
   const loginCardStyle = {
     backgroundColor: "#D7E9F7",

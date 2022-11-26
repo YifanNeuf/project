@@ -56,6 +56,7 @@ function Login() {
       });
   };
 
+
   const loginCardStyle = {
     backgroundColor: "#D7E9F7",
     width: "450px",
@@ -222,6 +223,11 @@ function Login() {
                 <button loading={isLoading} style={stepBtnStyle} onClick={signIn}>
                   登入
                 </button>
+                <ButtonLink to="/forgetPassword" name="忘記密碼" />
+                {/* <button loading={isLoading} style={stepBtnStyle} onClick={sendResetEmail}>
+                  忘記密碼
+                </button> */}
+
               </div>
                 {errorMessage && (
                   <p style={errorMessageStyle}>{errorMessage}</p>

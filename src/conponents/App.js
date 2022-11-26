@@ -10,6 +10,7 @@ import UploadDemandThird from "./UploadDemandThird";
 import LoginDemand from "./LoginDemand";
 import LoginAdmin from "./LoginAdmin";
 import Signin from "./Signin";
+import ForgetPassword from "./ForgetPassword";
 // import ScrollToTop from "../elements/scrollToTop";
 import MyDemand from "./MyDemand";
 import Profile from "./Profile";
@@ -41,6 +42,7 @@ import Dashboard from "../elements/dashboard";
 import SignUp from "./SignUp";
 import UploadGoods from "./UploadGoods";
 import UploadGoodsSec from "./UploadGoodsSec";
+import UserUpdatePassword from "./UserUpdatePassword";
 
 function App() {
   return (
@@ -50,6 +52,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<NavbarComp />} />
             <Route path="/signin" element={<SignUp />} />
+            <Route path="/forgetPassword" element={<ForgetPassword />} />
             <Route path="/uploadGoods" element={<UploadGoods />} />
             <Route path="/uploadGoodsSec" element={<UploadGoodsSec />} />
             <Route path="/loginin" element={<Signin />} />
@@ -60,6 +63,7 @@ function App() {
             <Route path="/demandstep3" element={<UploadDemandThird />} />
             <Route path="/myDemand" element={<MyDemand />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/userUpdatePassword" element={<UserUpdatePassword />} />
             <Route path="/donatestep2" element={<DonateListSec />} />
             <Route path="/donatestep3" element={<DonateListThird />} />
             <Route path="/donateRecord" elelment={<DonateRecord />} />
