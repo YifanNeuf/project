@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/project/static/css/main.6a10e4c0.css",
+    "main.js": "/project/static/js/main.12514577.js",
+    "static/js/787.25a258f7.chunk.js": "/project/static/js/787.25a258f7.chunk.js",
+    "static/media/tablet.jpg": "/project/static/media/tablet.6dc71b6586f7511f0ad6.jpg",
+    "static/media/coffee.png": "/project/static/media/coffee.77956375d251ab22f4dd.png",
+    "static/media/公益團體申請流程說明書.pdf": "/project/static/media/公益團體申請流程說明書.91cba510ee82f48b4ecf.pdf",
+    "static/media/機構切結書.pdf": "/project/static/media/機構切結書.3321360c3ebc43e7cbd4.pdf",
+    "static/media/Google__G__Logo.svg.png": "/project/static/media/Google__G__Logo.svg.53f4554c72d9726f434c.png",
+    "static/media/facebook_logos_PNG19748.png": "/project/static/media/facebook_logos_PNG19748.64a5b676fe8a2c960fa9.png",
+    "static/media/LINE_logo.svg.webp": "/project/static/media/LINE_logo.svg.1e44149ef4f9263083c5.webp",
+    "static/media/bg_chiheisen_green.jpg": "/project/static/media/bg_chiheisen_green.69d97bebbe4387257c91.jpg",
+    "static/media/機構切結書.docx": "/project/static/media/機構切結書.2867e24e3f0b18cd5d47.docx",
+    "index.html": "/project/index.html",
+    "main.6a10e4c0.css.map": "/project/static/css/main.6a10e4c0.css.map",
+    "main.12514577.js.map": "/project/static/js/main.12514577.js.map",
+    "787.25a258f7.chunk.js.map": "/project/static/js/787.25a258f7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6a10e4c0.css",
+    "static/js/main.12514577.js"
+  ]
+}
