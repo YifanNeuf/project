@@ -17,6 +17,10 @@ import { useState } from "react";
 import React, { Component } from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
+import logo from "../img/coffee.png";
+import bgphoto from "../img/bg_chiheisen_green.jpg";
 
 function Login() {
   const navigate = useNavigate();
@@ -56,17 +60,17 @@ function Login() {
       });
   };
 
-
   const loginCardStyle = {
     backgroundColor: "#D7E9F7",
     width: "450px",
-    height: "590px",
+    height: "570px",
     position: "absolute",
     top: "50%",
     left: "75%",
     margin: "-300px 0px 0px -225px",
     // boxShadow: "0px 0px 4px 4px #f0f0f0",
-    boxShadow: "10px 10px 15px lightgray",
+    boxShadow: "5px 5px 10px gray",
+    // boxShadow: "10px 10px 15px lightgray",
     // boxShadow: "10px 10px 25px #9d9d9d",
     // boxShadow: "6px 6px 8px 8px #E0E0E0",
     borderRadius: "30px",
@@ -74,7 +78,7 @@ function Login() {
   const mulLoginPageStyle = {
     width: "380px",
     height: "100px",
-    top: "118%",
+    top: "135%",
     left: "50%",
     position: "absolute",
     margin: "-80px 0px 0px -190px",
@@ -103,7 +107,7 @@ function Login() {
     width: "240px",
     height: "40px",
     position: "absolute",
-    top: "50%",
+    top: "58.5%",
     left: "50%",
     margin: "0px 0px 0px -125px",
     marginTop: "85px",
@@ -111,23 +115,18 @@ function Login() {
     flexDirection: "row",
   };
   const loginLogoStyle = {
-    width: "550px",
-    height: "500px",
-    backgroundColor: "#FEF1E6",
+    width: "650px",
+    height: "600px",
     position: "absolute",
     top: "50%",
-    margin: "-250px 0px 0px 50px",
+    margin: "-300px 0px 0px 50px",
   };
   const loginPageStyle = {
-    width: "50%",
+    // width: "50%",
   };
   const loginBodyStyle = {
     display: "flex",
     flexDirection: "row",
-  };
-  const logoItemStyle = {
-    textAlign: "center",
-    lineHeight: "450px",
   };
   const stepBtnStyle = {
     color: "#ffffff",
@@ -141,7 +140,6 @@ function Login() {
   };
   const levelInStyle = {
     width: "100%",
-    marginTop: "-25px",
     marginBottom: "20px",
   };
   const levelInContentStyle = {
@@ -156,15 +154,16 @@ function Login() {
     fontWeight: "bold",
     color: "red",
     textAlign: "center",
-    marginTop: "82px",
+    marginTop: "10px",
     border: "1px red solid",
-    backgroundColor: "#FFECEC"
+    backgroundColor: "#FFECEC",
   };
   const [activeItem, setActiveItem] = React.useState("loginUser");
   return (
     <div style={loginBodyStyle}>
+      <img style={{width: "100%"}} src={bgphoto} alt="bgPhoto" />
       <div style={loginLogoStyle}>
-        <h5 style={logoItemStyle}>logo</h5>
+        <img style={loginLogoStyle} src={logo} alt="logoPhoto" />
       </div>
       <div style={loginPageStyle}>
         <div style={loginCardStyle}>
@@ -220,23 +219,36 @@ function Login() {
               <div style={btnContentStyle}>
                 <ButtonLink to="/signin" name="前往註冊" />
                 &nbsp;&nbsp;
-                <button loading={isLoading} style={stepBtnStyle} onClick={signIn}>
+                <button
+                  loading={isLoading}
+                  style={stepBtnStyle}
+                  onClick={signIn}
+                >
                   登入
                 </button>
-                <ButtonLink to="/forgetPassword" name="忘記密碼" />
-                {/* <button loading={isLoading} style={stepBtnStyle} onClick={sendResetEmail}>
-                  忘記密碼
-                </button> */}
-
               </div>
-                {errorMessage && (
-                  <p style={errorMessageStyle}>{errorMessage}</p>
-                )}
+
+              <div
+                style={{ marginTop: "75px", textAlign: "center", zIndex: "2" }}
+              >
+                <Nav.Link
+                  style={{
+                    fontSize: "14px",
+                    letterSpacing: "1px",
+                    textDecoration: "underLine",
+                    color: "blue",
+                  }}
+                  as={Link}
+                  to="/forgetPassword"
+                >
+                  忘記密碼？請點擊這裡。
+                </Nav.Link>
+              </div>
+              {errorMessage && <p style={errorMessageStyle}>{errorMessage}</p>}
             </div>
             <div style={mulLoginPageStyle}>
-              <hr style={{marginTop: "50px"}} />
+              <hr style={{ marginTop: "50px" }} />
               <GoogleLogin />
-              <LineLogin />
               <FbLogin />
             </div>
           </div>

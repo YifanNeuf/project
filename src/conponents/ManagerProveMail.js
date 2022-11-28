@@ -6,25 +6,17 @@ import Form from 'react-bootstrap/Form';
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
 import emailjs from 'emailjs-com';
-import { useNavigate } from "react-router-dom";
 
 function ManagerProveMail() {
     // const form = useRef();
-    const navigate = useNavigate();
-
-    // localstorage 網址傳值
     let org = localStorage.getItem('proveOrg');
     console.log("localstorage",org);
     org = JSON.parse(org);
-    console.log("localstorag`e",org);
-
-    // let org = JSON.parse(localStorage.getItem('proveOrg'))
-
-
+    console.log("localstorage",org);
 
     const [values, setValues] = useState({
         toName: org.name,
-        toEmail: 'qianmu0503@gmail.com',
+        toEmail: 'trickleofbenefaction@gmail.com', //密碼：tobofficial
         result: '',
         reason: ''
     });
@@ -57,8 +49,6 @@ function ManagerProveMail() {
             .then((result) => {
                 console.log(result.text);
                 alert("信件寄送成功！")
-                // window.location.reload();
-                navigate("/managerProve");
             }, (error) => {
                 console.log(error.text);
                 alert("信件寄送失敗，請再寄送一次！")

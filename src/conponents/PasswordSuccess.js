@@ -29,7 +29,7 @@ function PasswordSuccess() {
 
     const btnStyle = {
         position: "absolute",
-        marginTop: "30px",
+        marginTop: "50px",
         left: "50%",
         transform: `translate(${-50}%, ${-50}%)`,
         paddingTop: "5px",
@@ -50,7 +50,7 @@ function PasswordSuccess() {
 
 
                     <div style={btnStyle}>
-                        <ButtonLink to="/charityInfo" name="下一步" />
+                        <ButtonLink to="/" name="回首頁" />
                     </div>
 
                 </Card.Body>

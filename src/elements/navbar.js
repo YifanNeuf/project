@@ -13,10 +13,16 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { Button } from "react-bootstrap";
+import ScrollToTop from "react-scroll-to-top";
 
 export default function NavbarComp() {
   const [user, loading] = useAuthState(auth);
-  if (loading) return <h1 style={{ textAlign: "center" }}>loading...</h1>;
+  if (loading)
+    return (
+      <h1 style={{ textAlign: "center", color: "#002b5b", fontWeight: "bold" }}>
+        loading...
+      </h1>
+    );
   const bodyStyle = {
     backgroundColor: "#ffffff",
   };
@@ -171,7 +177,7 @@ export default function NavbarComp() {
                     to="/setPassword"
                     href="#action/3.2"
                   >
-                    機構簡介
+                    初步設定密碼
                   </NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown
@@ -207,7 +213,7 @@ export default function NavbarComp() {
                     to="/charity"
                     href="#action/3.2"
                   >
-                    合作店家一覽表
+                    機構／公益團體一覽表
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2" style={navdropItemStyle}>
                     點數兌換專區
@@ -303,6 +309,7 @@ export default function NavbarComp() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <ScrollToTop smooth />
     </div>
   );
 }

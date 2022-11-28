@@ -14,7 +14,6 @@ function Button(props) {
     height: "35px",
     fontWeight: "bold",
   };
-  
   return (
     <div>
       <Nav.Link as={Link} to={props.to} style={stepBtnStyle}>

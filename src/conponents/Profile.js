@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container, Nav } from "react-bootstrap";
 import React, { Component } from "react";
 import "../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +18,8 @@ import { sendEmailVerification } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../elements/navbar";
 import { faHandPointer } from "@fortawesome/free-solid-svg-icons";
+import Alert from "react-bootstrap/Alert";
+import { Link } from "react-router-dom";
 
 function UploadDemand() {
   const navigate = useNavigate();
@@ -25,14 +27,14 @@ function UploadDemand() {
   if (!user) {
     navigate("/loginin");
   }
-
+  
   function verifiedEmail() {
     if (user.emailVerified === false) {
       sendEmailVerification(auth.currentUser)
         .then(() => {
           // 驗證信發送完成
           navigate("/profile");
-          alert('驗證信已發送到您的信箱，請查收。\n註：若找不到信件，可查看是否被寄送至垃圾郵件裡，謝謝')
+          alert('驗證信已發送到您的信箱，請查收。\n註：若找不到信件，可查看是否被寄送至垃圾郵件裡，謝謝。')
         }).catch(error => {
           // 驗證信發送失敗
           console.log(error.message);
@@ -43,7 +45,6 @@ function UploadDemand() {
       alert("未能抓到user資訊");
     }
   }
-
   const profileContentStyle = {
     borderRadius: "5px",
     height: "380px",
@@ -91,6 +92,40 @@ function UploadDemand() {
       <Navbar />
       <TitleSec name="個人檔案管理" />
       <Container>
+        {/* <>
+          {["danger"].map((variant) => (
+            <Alert
+              key={variant}
+              variant={variant}
+            >
+              <Row style={{paddingLeft: "120px"}}>
+                <Col style={{textAlign: "right", lineHeight: "30px"}}>
+                    帳號尚未同步，立即
+                    <span style={{ color: "red" }}>前往同步</span>。
+                </Col>
+                <Col>
+                  <Nav.Link
+                    style={{
+                      border: "none",
+                      color: "white",
+                      backgroundColor: "#ff5151",
+                      borderRadius: "50px",
+                      width: "100px",
+                      height: "30px",
+                      fontWeight: "bold",
+                      lineHeight: "30px",
+                      textAlign: "center",
+                    }}
+                    to="/googleSetAccount"
+                    as={Link}
+                  >
+                    同步帳號
+                  </Nav.Link>
+                </Col>
+              </Row>
+            </Alert>
+          ))}
+        </> */}
         <Card style={{ marginTop: "40px", width: "80%", marginLeft: "10%" }}>
           <div style={profileContentStyle}>
             <Row>
@@ -120,7 +155,7 @@ function UploadDemand() {
               <Col>
                 <div style={textStyle}>
                   {user.displayName && (
-                    <p style={{marginBottom: "-40px"}}>
+                    <p style={{ marginBottom: "-40px" }}>
                       <b>用戶名稱：</b>
                       {user.displayName}&nbsp;
                     </p>
@@ -182,7 +217,7 @@ function UploadDemand() {
                   </a>
                   <br />
                   <div style={passwordStyle}>
-                    <ButtonLink name="修改密碼" to="/userUpdatePassword"/>
+                    <ButtonLink name="修改密碼" to="/userUpdatePassword" />
                     &nbsp;
                     <ButtonLink name="修改資料" />
                   </div>
@@ -191,7 +226,6 @@ function UploadDemand() {
             </Row>
           </div>
         </Card>
-
         <div style={titleSecPage}>
           <h5 style={{ color: "#002b5b", fontWeight: "bold" }}>瀏覽紀錄</h5>
           <Slider {...settingsSec}>
@@ -215,7 +249,6 @@ function UploadDemand() {
             </div>
           </Slider>
         </div>
-
         <div style={titleSecPage}>
           <h5 style={{ color: "#002b5b", fontWeight: "bold" }}>捐贈紀錄</h5>
           <Slider {...settingsSec}>
