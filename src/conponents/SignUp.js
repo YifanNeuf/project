@@ -55,7 +55,8 @@ function Login() {
       sendEmailVerification(auth.currentUser)
         .then(() => {
           // 驗證信發送完成
-          window.location.reload();
+          navigate("/loginIn");
+          // window.location.reload();
           alert('驗證信已發送到您的信箱，請查收。即將前往登入頁面...')
         }).catch(error => {
           // 驗證信發送失敗

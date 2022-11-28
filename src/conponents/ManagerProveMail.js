@@ -12,11 +12,15 @@ function ManagerProveMail() {
     // const form = useRef();
     const navigate = useNavigate();
 
-    // localstorge 網址傳值
+    // localstorage 網址傳值
     let org = localStorage.getItem('proveOrg');
     console.log("localstorage",org);
     org = JSON.parse(org);
     console.log("localstorag`e",org);
+
+    // let org = JSON.parse(localStorage.getItem('proveOrg'))
+
+
 
     const [values, setValues] = useState({
         toName: org.name,
