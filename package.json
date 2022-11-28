@@ -32,7 +32,8 @@
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://YifanNeuf.github.io/project",
+  
+  "homepage": "https://yifanneuf.github.io/project",
 
   "scripts": {
     "start": "react-scripts start",
