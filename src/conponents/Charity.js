@@ -15,7 +15,7 @@ function Charity() {
     return (
         <div>
             <Navbar />
-            <TitleSec name="合作店家一覽表" />
+            <TitleSec name="合作機構一覽表" />
             <Container>
                 {/* , display: "flex", flexDirection: "row" */}
                 <div style={{ padding: "30px", textSpacing: "1px" }}>

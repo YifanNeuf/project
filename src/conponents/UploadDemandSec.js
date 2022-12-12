@@ -7,8 +7,7 @@ import ButtonLink from "../elements/button";
 import DemandStep2 from "../elements/demandStep2";
 import Navbar from "../elements/navbar";
 
-class UploadDemand extends Component {
-  render() {
+function UploadDemand() {
     const nextStepStyle = {
       marginLeft: "10px",
     };
@@ -45,6 +44,5 @@ class UploadDemand extends Component {
       </div>
     );
   }
-}
 
 export default UploadDemand;

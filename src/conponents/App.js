@@ -46,6 +46,11 @@ import ApplicationUpload4 from "./ApplicationUpload4";
 import GoogleSetAccount from "./GoogleSetAccount";
 import ForgetPasseord from "./ForgetPassword";
 import UserUpdatePassword from "./UserUpdatePassword";
+import AddStores from "./AddStores";
+import UploadGoodsSuccess from "./UploadGoodsSuccess";
+import AllGoods from "./AllGoods";
+import AllStores from "./AllStores";
+import UpdateStores from "./UpdateStores";
 
 function App() {
   return (
@@ -97,6 +102,11 @@ function App() {
             <Route element={<Dashboard />} path="/dashboard" />
             <Route element={<ForgetPasseord />} path="/forgetPassword" />
             <Route element={<UserUpdatePassword />} path="/userUpdatePassword" />
+            <Route element={<AddStores />} path="/addStores" />
+            <Route element={<UploadGoodsSuccess />} path="/uploadGoodsSuccess" />
+            <Route element={<AllGoods />} path="/allGoods" />
+            <Route element={<AllStores />} path="/allStores" />
+            <Route element={<UpdateStores />} path="/updateStores" />
           </Routes>
         </BrowserRouter>
     </div>

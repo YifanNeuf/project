@@ -1,38 +1,52 @@
-import React, { Component } from "react";
-import { db } from "../utils/firebase";
+import React from "react";
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
-import { Card, FormControl } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import { useState } from "react";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
-import TitleStep from "../elements/titleStep";
-import ButtonLink from "../elements/button";
-import Link from "next/link";
-import { auth } from "../utils/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
-function UploadGoods() {
-  const [name, setName] = useState("");
-  const [store, setStore] = useState("");
-  const [price, setPrice] = useState("");
-  // const [user] = useAuthState(auth);
+function UpdateStores() {
+  const navigate = useNavigate();
+
+  let store = JSON.parse(localStorage.getItem('store'));
+    // console.log("localstorage",org);
+
+  const [values, setValues] = useState({
+      name: store.name,
+      address: store.address,
+      phone: store.phone
+  });
+
+  const handleChange = (e) => {
+      setValues(values => ({
+        ...values,
+        [e.target.name]: e.target.value
+      }))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // await setDoc(doc(db, "goodsDemand", user.uid), {
-      await addDoc(collection(db, "goodsDemand"), {
-        name: name,
-        store: store,
-        price: price,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    const taskDocRef = doc(db, 'stores', store.id)
+        // console.log(taskDocRef._key.id);
+        console.log(taskDocRef);
+      try{
+          await updateDoc(taskDocRef, {
+            name: values.name,
+            address: values.address,
+            phone: values.phone,
+          })
+          alert("修改成功")
+          navigate("/allStores")
+      } catch(err) {
+          console.log(err);
+          // alert("資料更新有誤：", err)
+      }    
   };
-
   const subBtnStyle = {
     color: "#ffffff",
     backgroundColor: "#002B5B",
@@ -47,8 +61,7 @@ function UploadGoods() {
   return (
     <div>
       <Navbar />
-      <TitleSec name="上架物資" />
-      <TitleStep name="STEP2 - 填寫商品資訊" />
+      <TitleSec name="修改合作店家資料" />
       <br />
       <Container>
         <div>
@@ -58,27 +71,30 @@ function UploadGoods() {
                 <form onSubmit={handleSubmit}>
                   <FormControl
                     style={{ margin: "30px 30px 0 30px", width: "90%" }}
-                    placeholder="輸入物資名稱（如：【春風】超細柔抽取式衛生紙110抽24包）"
-                    onChange={(e) => setName(e.target.value)}
+                    placeholder="輸入店家名稱（如：7-ELEVEN 輔大門市）"
+                    onChange={handleChange}
                     type="text"
-                    value={name}
+                    name="name"
+                    value={values.name}
                   />
                   <FormControl
                     style={{ margin: "30px 30px 0 30px", width: "90%" }}
-                    placeholder="輸入合作店家（之後改成下拉式選單）"
-                    onChange={(e) => setStore(e.target.value)}
+                    placeholder="輸入店家地址（如：242新北市新莊區中正路510號）"
+                    onChange={handleChange}
                     type="text"
-                    value={store}
+                    name="address"
+                    value={values.address}
                   />
                   <FormControl
                     style={{ margin: "30px 30px 0 30px", width: "90%" }}
-                    placeholder="輸入商品金額"
-                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="輸入電話（如：02-2905-6534）"
+                    onChange={handleChange}
                     type="text"
-                    value={price}
+                    name="phone"
+                    value={values.phone}
                   />
                   <button type="submit" style={subBtnStyle}>
-                    送出
+                    送出修改
                   </button>
                 </form>
               </Card>
@@ -111,7 +127,7 @@ function UploadGoods() {
               </button>
             </div>
           )} */}
-          {name && price && store && (
+          {/* {name && price && store && (
             <div
               style={{
                 marginLeft: "45.5%",
@@ -126,11 +142,11 @@ function UploadGoods() {
                 name="下一步"
               ></ButtonLink>
             </div>
-          )}
+          )} */}
         </div>
       </Container>
     </div>
   );
 }
 
-export default UploadGoods;
+export default UpdateStores;

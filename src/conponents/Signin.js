@@ -3,18 +3,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ButtonLink from "../elements/button";
 import ReturnHome from "../elements/returnHome";
 import GoogleLogin from "../elements/googleLogin";
-import LineLogin from "../elements/lineLogin";
+// import LineLogin from "../elements/lineLogin";
 import FbLogin from "../elements/fbLogin";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import Input from "../elements/input";
 import app from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import React, { Component } from "react";
+import React from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
@@ -23,6 +21,8 @@ import logo from "../img/coffee.png";
 import bgphoto from "../img/bg_chiheisen_green.jpg";
 
 function Login() {
+  const [activeItem, setActiveItem] = React.useState("loginUser");
+
   const navigate = useNavigate();
   const auth = getAuth(app);
   const [email, setEmail] = useState("");
@@ -36,7 +36,7 @@ function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        localStorage.setItem('email',JSON.stringify(user.email));
         navigate("/");
         setIsLoading(false);
         // ...
@@ -158,7 +158,6 @@ function Login() {
     border: "1px red solid",
     backgroundColor: "#FFECEC",
   };
-  const [activeItem, setActiveItem] = React.useState("loginUser");
   return (
     <div style={loginBodyStyle}>
       <img style={{width: "100%"}} src={bgphoto} alt="bgPhoto" />
@@ -198,7 +197,7 @@ function Login() {
               </Button>
             </ButtonGroup>
             <p style={titleStyle}>
-              {activeItem === "loginUser" && "捐款者，您好："}
+              {activeItem === "loginUser" && "捐贈者，您好："}
               {activeItem === "loginDemand" && "公益單位，您好："}
               {activeItem === "loginAdmin" && "管理者，您好："}
             </p>
@@ -206,19 +205,20 @@ function Login() {
               <Form.Control
                 style={inputStyle}
                 type="email"
-                placeholder="使用者帳號"
+                placeholder="請輸入帳號"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <Form.Control
                 style={inputStyle}
                 type="password"
-                placeholder="使用者密碼"
+                placeholder="請輸入密碼"
                 onChange={(e) => setPassword(e.target.value)}
               />
 
               <div style={btnContentStyle}>
                 <ButtonLink to="/signin" name="前往註冊" />
                 &nbsp;&nbsp;
+                {/* 預計用link包住button傳值：給navbar.js */}
                 <button
                   loading={isLoading}
                   style={stepBtnStyle}
@@ -248,8 +248,14 @@ function Login() {
             </div>
             <div style={mulLoginPageStyle}>
               <hr style={{ marginTop: "50px" }} />
-              <GoogleLogin />
-              <FbLogin />
+              {activeItem === "loginUser" && (
+                <>
+                  <GoogleLogin />
+                  <FbLogin />
+                </>
+              )}
+              
+              
             </div>
           </div>
         </div>
