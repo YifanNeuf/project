@@ -36,14 +36,12 @@ import PointsItemDetails from "./PointsItemDetails";
 import PointsItemSuccess from "./PointsItemSuccess";
 import ManagerProve from "./ManagerProve";
 import ManagerProveMail from "./ManagerProveMail";
-import Dashboard from "../elements/dashboard";
 import SignUp from "./SignUp";
 import UploadGoods from "./UploadGoods";
 import UploadGoodsSec from "./UploadGoodsSec";
 import ApplicationUpload2 from "./ApplicationUpload2";
 import ApplicationUpload3 from "./ApplicationUpload3";
 import ApplicationUpload4 from "./ApplicationUpload4";
-import GoogleSetAccount from "./GoogleSetAccount";
 import ForgetPasseord from "./ForgetPassword";
 import UserUpdatePassword from "./UserUpdatePassword";
 import AddStores from "./AddStores";
@@ -51,6 +49,7 @@ import UploadGoodsSuccess from "./UploadGoodsSuccess";
 import AllGoods from "./AllGoods";
 import AllStores from "./AllStores";
 import UpdateStores from "./UpdateStores";
+import UpdateGoods from "./UpdateGoods";
 
 function App() {
   return (
@@ -76,8 +75,8 @@ function App() {
             <Route path="/process" element={<Process />} />
             <Route path="/processRecordList" element={<ProcessRecordList />} />
             <Route path="/viewRecord" element={<ViewRecord />} />
-            <Route path="/googleSetAccount" element={<GoogleSetAccount />} />
             <Route element={<ApplicationInfo />} path="/applicationInfo" />
+            <Route element={<ApplicationUpload />} path="/applicationUpload" />
             <Route element={<ApplicationUpload2 />} path="/applicationUpload2" />
             <Route element={<ApplicationUpload3 />} path="/applicationUpload3" />
             <Route element={<ApplicationUpload4 />} path="/applicationUpload4" />
@@ -87,7 +86,7 @@ function App() {
             <Route element={<ManagerProveData />} path="/managerProveData" />
             <Route element={<SetPassword />} path="/setPassword" />
             <Route element={<PasswordSuccess />} path="/passwordSuccess" />
-            {/* <Route element={<CharityInfo />} path="/charityInfo" /> */}
+            <Route element={<CharityInfo />} path="/charityInfo" />
             <Route element={<CharityPreview />} path="/charityPreview" />
             <Route
               element={<CharityInfoSuccess />}
@@ -99,7 +98,6 @@ function App() {
             <Route element={<PointsItem />} path="/pointsItem" />
             <Route element={<PointsItemDetails />} path="/pointsItemDetails" />
             <Route element={<PointsItemSuccess />} path="/pointsItemSuccess" />
-            <Route element={<Dashboard />} path="/dashboard" />
             <Route element={<ForgetPasseord />} path="/forgetPassword" />
             <Route element={<UserUpdatePassword />} path="/userUpdatePassword" />
             <Route element={<AddStores />} path="/addStores" />
@@ -107,6 +105,7 @@ function App() {
             <Route element={<AllGoods />} path="/allGoods" />
             <Route element={<AllStores />} path="/allStores" />
             <Route element={<UpdateStores />} path="/updateStores" />
+            <Route element={<UpdateGoods/>} path="/updateGoods"></Route>
           </Routes>
         </BrowserRouter>
     </div>

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import img from "../img/tablet.jpg";
 
-function DemandStep1() {
+function DemandStep1({id, name, store}) {
   const card = {
     marginBottom: "20px",
     marginLeft: "10px",
@@ -24,23 +24,36 @@ function DemandStep1() {
     marginLeft: "15%",
     marginRight: "75%",
   };
+  const buttonStyle = {
+    border: "none"
+  }
+
+  const [goodsSelect, setGoodsSelect] = useState([])
+
+  function handleSelect() {
+    setGoodsSelect()
+  }
+
   return (
     <div>
-      <Card style={card}>
-        <Card.Img style={goodsImgStyle} variant="top" src={img} />
-        <Card.Body style={contentStyle}>
-          <Card.Title>
-            物資名稱：<b>ASUS 平板電腦</b>
-          </Card.Title>
-          <hr></hr>
-          <Card.Text style={{ color: "#6C6C6C" }}>
-            物資提供商家：
-            <a style={demandHrefStyle} href="#">
-              奕慈麵包坊
-            </a>
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      <button style={buttonStyle} onClick={() => console.log(`點選了${name}`)}>
+        <Card style={card}>
+          <Card.Img style={goodsImgStyle} variant="top" src={img} />
+          <Card.Body style={contentStyle}>
+            <Card.Title>
+              物資名稱：<b>{name}</b>
+            </Card.Title>
+            <hr></hr>
+            <Card.Text style={{ color: "#6C6C6C" }}>
+              物資提供商家：
+              <a style={demandHrefStyle} href="#">
+                {store}
+              </a>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </button>
+      
     </div>
   );
 }

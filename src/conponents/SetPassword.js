@@ -12,13 +12,21 @@ import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "../utils/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router";
+
+import NavbarHome from "../elements/navbarHome";
 
 function SetPassword() {
-  const auth = getAuth(app);
+  const [user] = useAuthState(auth);
+  // const auth = getAuth(app);
   const navigate = useNavigate();
+  // const [user] = useAuthState(auth);
+  // if (!user){
+  //   navigate("/loginin");
+  // }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
@@ -26,12 +34,13 @@ function SetPassword() {
   // const [user] = useAuthState(auth);
 
   const signUp = () => {
-    if (password === checkPassword) {
-      createUserWithEmailAndPassword(auth, "LinYuhui@gmail.com", password)
+  if (password === checkPassword) {
+      createUserWithEmailAndPassword(auth, "test@email.com", password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          // console.log(user);
+          addUser(user);
           navigate("/passwordSuccess");
         })
         .catch((error) => {
@@ -56,6 +65,19 @@ function SetPassword() {
       alert("兩次密碼輸入不相同，請重新輸入。");
     }
   };
+
+  // 新增firebase "charity" 資訊
+  function addUser(user) {
+    try {
+      addDoc(collection(db, "users"), {
+        email: email,
+        level: "charity",
+        uid: user.uid
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   // const handleSubmit = async (e) => {
   //   if (password === checkPassword) {
@@ -122,20 +144,19 @@ function SetPassword() {
   };
   return (
     <div>
-      <Navbar />
+      {user && <Navbar />}
+      {!user && <NavbarHome />}
       <TitleSec name="基本資料設定" />
       <TitleStep name="STEP1&nbsp;-&nbsp;設定密碼" />
       <Card style={cardStyle}>
         <Card.Body>
-          <form>
-            {/*  onClick={handleSubmit} */}
             <InputGroup className="mb-3">
               <Form.Label htmlFor="basic-url" style={labelStyle}>
                 帳號：
               </Form.Label>
               <Form.Control
                 style={inputStyle}
-                placeholder="LinYuhui@gmail.com"
+                placeholder="test@email.com"
                 // value={}
                 aria-label="Username"
                 aria-describedby="basic-addon1"
@@ -194,7 +215,6 @@ function SetPassword() {
               )}
             </InputGroup>
             {errorMessage && <p style={errorMessageStyle}>{errorMessage}</p>}
-          </form>
         </Card.Body>
       </Card>
       <div>

@@ -13,6 +13,7 @@ import PaginationList from "../elements/paginationList";
 import Navbar from "../elements/navbar";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
+import NavbarHome from "../elements/navbarHome";
 
 const DonateList = () => {
   const [user] = useAuthState(auth);
@@ -34,7 +35,8 @@ const DonateList = () => {
   };
   return (
     <div>
-      <Navbar />
+    {user && <Navbar />}
+    {!user && <NavbarHome />}
       <div style={donPageStyle}>
         <TitleSec name="捐贈物資列表" />
         <Container>
@@ -60,37 +62,16 @@ const DonateList = () => {
           </div> */}
           <Row>
             <Col>
-              <ProductStep1
-                name="【Tempo】極吸萬用三層廚房紙巾(捲筒式)125張x16捲"
-                charity="財團法人瑞信兒童醫療基金會"
-                num="10"
-                intro="提供給偏鄉孩童授課使用"
-                supply="7-ELEVEN 輔進門市"
-                price="299"
-              />
+              <ProductStep1 />
             </Col>
             <Col>
-              <ProductStep1
-                name="【春風】超細柔抽取式衛生紙110抽24包"
-                charity="社團法人中華愛悅公益慈善發展協會"
-                num="20"
-                intro="提供給獨居老人使用"
-                supply="7-ELEVEN 輔大門市"
-                price="329"
-              />
+              <ProductStep1 />
             </Col>
             <Col>
-            <ProductStep1
-                name="【春風】超細柔抽取式衛生紙110抽24包"
-                charity="社團法人中華愛悅公益慈善發展協會"
-                num="20"
-                intro="提供給獨居老人使用"
-                supply="7-ELEVEN 輔大門市"
-                price="329"
-              />
+              <ProductStep1 />
             </Col>
           </Row>
-          {/* <Row>
+          <Row>
             <Col>
               <ProductStep1 />
             </Col>
@@ -100,7 +81,7 @@ const DonateList = () => {
             <Col>
               <ProductStep1 />
             </Col>
-          </Row> */}
+          </Row>
           {/* <PaginationList /> */}
           {user && (
             <div

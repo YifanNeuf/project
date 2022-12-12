@@ -33,8 +33,8 @@ function Login() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          // console.log(user.uid);
-          addUser(user)
+          // console.log(user);
+          addUser(user);
           navigate("/loginIn");
           setIsLoading(false);
           alert("註冊成功，正在前往登入頁面...");
@@ -74,24 +74,13 @@ function Login() {
     }
   }
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await addDoc(collection(db, "users"), {
-  //       email: email,
-  //       level: "member"
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   function verifiedEmail(user) {
     if (user.emailVerified === false) {
       sendEmailVerification(auth.currentUser)
         .then(() => {
           // 驗證信發送完成
-          alert("驗證信已發送到您的信箱，請查收。\n註：\n1. 若找不到信件可查看是否被寄送至垃圾郵件裡。\n2. 若過有效時間，可至「個人檔案管理」重新發送驗證信。");
+          // window.location.reload();
+          alert("驗證信已發送到您的信箱，請查收。\n註：\n1. 若找不到信件可查看是否被寄送至垃圾郵件裡。\n2. 若過有效時間，可至'個人檔案管理'重新發送驗證信。");
           navigate("/loginin");
         })
         .catch((error) => {
@@ -112,7 +101,11 @@ function Login() {
     top: "40%",
     left: "75%",
     margin: "-150px 0px 0px -225px",
+    // boxShadow: "0px 0px 4px 4px #f0f0f0",
     boxShadow: "5px 5px 10px gray",
+    // boxShadow: "10px 10px 15px lightgray",
+    // boxShadow: "10px 10px 25px #9d9d9d",
+    // boxShadow: "6px 6px 8px 8px #E0E0E0",
     borderRadius: "30px",
   };
   const loginContentStyle = {
@@ -159,10 +152,6 @@ function Login() {
     display: "flex",
     flexDirection: "row",
   };
-  // const logoItemStyle = {
-  //   textAlign: "center",
-  //   lineHeight: "450px",
-  // };
   const stepBtnStyle = {
     color: "#ffffff",
     backgroundColor: "#002B5B",
@@ -182,7 +171,6 @@ function Login() {
     border: "1px red solid",
     backgroundColor: "#FFECEC",
   };
-  // onSubmit={handleSubmit}
 
   return (
     <div style={loginBodyStyle}>
@@ -194,7 +182,7 @@ function Login() {
         <div style={loginCardStyle}>
           <div style={loginContentStyle}>
             <p style={titleStyle}>註冊</p>
-            {/* <form onSubmit={handleSubmit}> */}
+            {/* <form> */}
               <Form.Control
                 style={inputStyle}
                 type="email"

@@ -3,16 +3,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ButtonLink from "../elements/button";
 import ReturnHome from "../elements/returnHome";
 import GoogleLogin from "../elements/googleLogin";
-// import LineLogin from "../elements/lineLogin";
+import LineLogin from "../elements/lineLogin";
 import FbLogin from "../elements/fbLogin";
 import {
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import Input from "../elements/input";
 import app from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import React from "react";
+import React, { Component } from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
@@ -36,7 +38,7 @@ function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        localStorage.setItem('email',JSON.stringify(user.email));
+        console.log(user);
         navigate("/");
         setIsLoading(false);
         // ...
@@ -63,11 +65,11 @@ function Login() {
   const loginCardStyle = {
     backgroundColor: "#D7E9F7",
     width: "450px",
-    height: "570px",
+    height: "510px",
     position: "absolute",
     top: "50%",
     left: "75%",
-    margin: "-300px 0px 0px -225px",
+    margin: "-280px 0px 0px -225px",
     // boxShadow: "0px 0px 4px 4px #f0f0f0",
     boxShadow: "5px 5px 10px gray",
     // boxShadow: "10px 10px 15px lightgray",
@@ -81,7 +83,7 @@ function Login() {
     top: "135%",
     left: "50%",
     position: "absolute",
-    margin: "-80px 0px 0px -190px",
+    margin: "-155px 0px 0px -190px",
     textAlign: "center",
   };
   const loginContentStyle = {
@@ -90,13 +92,13 @@ function Login() {
     position: "absolute",
     top: "50%",
     left: "50%",
-    margin: "-225px 0px 0px -190px",
+    margin: "-200px 0px 0px -190px",
   };
   const titleStyle = {
     color: "#002B5B",
     fontSize: "30px",
     textAlign: "center",
-    marginBottom: "30px",
+    marginBottom: "15px",
     fontWeight: "bold",
   };
   const inputStyle = {
@@ -110,7 +112,7 @@ function Login() {
     top: "58.5%",
     left: "50%",
     margin: "0px 0px 0px -125px",
-    marginTop: "85px",
+    marginTop: "5px",
     display: "flex",
     flexDirection: "row",
   };
@@ -167,7 +169,7 @@ function Login() {
       <div style={loginPageStyle}>
         <div style={loginCardStyle}>
           <div style={loginContentStyle}>
-            <ButtonGroup aria-label="Basic example" style={levelInStyle}>
+            {/* <ButtonGroup aria-label="Basic example" style={levelInStyle}>
               <Button
                 id="levelIn"
                 style={levelInContentStyle}
@@ -195,9 +197,9 @@ function Login() {
               >
                 管理員入口
               </Button>
-            </ButtonGroup>
+            </ButtonGroup> */}
             <p style={titleStyle}>
-              {activeItem === "loginUser" && "捐贈者，您好："}
+              {activeItem === "loginUser" && "使用者，您好："}
               {activeItem === "loginDemand" && "公益單位，您好："}
               {activeItem === "loginAdmin" && "管理者，您好："}
             </p>
@@ -218,7 +220,6 @@ function Login() {
               <div style={btnContentStyle}>
                 <ButtonLink to="/signin" name="前往註冊" />
                 &nbsp;&nbsp;
-                {/* 預計用link包住button傳值：給navbar.js */}
                 <button
                   loading={isLoading}
                   style={stepBtnStyle}
@@ -248,14 +249,8 @@ function Login() {
             </div>
             <div style={mulLoginPageStyle}>
               <hr style={{ marginTop: "50px" }} />
-              {activeItem === "loginUser" && (
-                <>
-                  <GoogleLogin />
-                  <FbLogin />
-                </>
-              )}
-              
-              
+              <GoogleLogin />
+              <FbLogin />
             </div>
           </div>
         </div>

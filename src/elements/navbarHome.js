@@ -1,5 +1,5 @@
 //打rcc+ENTER
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -14,11 +14,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { Button } from "react-bootstrap";
 import ScrollToTop from "react-scroll-to-top";
-import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
 
-export default function NavbarComp() {
+function NavbarComp() {
   const [user, loading] = useAuthState(auth);
-  const navigate = useNavigate();
   if (loading)
     return (
       <h3
@@ -33,9 +33,6 @@ export default function NavbarComp() {
         網頁載入中...
       </h3>
     );
-    if (!user){
-      navigate("/loginin");
-    }
   const bodyStyle = {
     backgroundColor: "#ffffff",
   };
@@ -146,7 +143,7 @@ export default function NavbarComp() {
         <Container>
           <Navbar.Brand
             as={Link}
-            to="/homeAdmin"
+            to="/"
             className="nav-title"
             style={navtitleStyle}
           >
@@ -161,45 +158,39 @@ export default function NavbarComp() {
               <Nav className="me-auto" style={navpageStyle}>
                 <Nav.Link
                   as={Link}
-                  to="/managerProve"
-                  href="#action/3.2"
-                  style={navitemStyle}
+                  to="/setPassword"
+                  href="#home"
+                  style={{
+                    marginRight: "8px",
+                    color: "red",
+                    fontSize: "17px",
+                  }}
                 >
-                  申請資料審核
+                  初步設定密碼
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  to="/addMember"
-                  href="#action/3.2"
-                  style={navitemStyle}
+                  to="/applicationInfo"
+                  href="#home"
+                  style={{
+                    marginRight: "8px",
+                    color: "#002B5B",
+                    fontSize: "17px",
+                  }}
                 >
-                  新增合作店家
+                  成為合作機構
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  to="/allStores"
+                  to="/charity"
                   href="#action/3.2"
                   style={navitemStyle}
                 >
-                  合作店家一覽表
+                  合作機構一覽
                 </Nav.Link>
-                <Nav.Link
-                  as={Link}
-                  to="/uploadGoods"
-                  href="#action/3.2"
-                  style={navitemStyle}
-                >
-                  上架物資
+                <Nav.Link as={Link} to="/pointsActivity" href="#action/3.2" style={navitemStyle}>
+                  點數兌換專區
                 </Nav.Link>
-                <Nav.Link
-                  as={Link}
-                  to="/allGoods"
-                  href="#action/3.2"
-                  style={navitemStyle}
-                >
-                  物資一覽表
-                </Nav.Link>
-
                 {user && (
                   <NavDropdown
                     title="登出"
@@ -274,6 +265,26 @@ export default function NavbarComp() {
                     註冊／登入
                   </Nav.Link>
                 )}
+
+                <Nav.Link as={Link} to="/donate" style={navDonateBtnStyle}>
+                  我要捐贈
+                </Nav.Link>
+                {/* {user && (
+                  <Nav.Link style={navCartBtnStyle}>
+                    <FontAwesomeIcon icon={faCartShopping} />
+                  </Nav.Link>
+                )} */}
+                {/* {!user && (
+                  <Nav.Link style={navCartSecBtnStyle}>
+                    <FontAwesomeIcon icon={faCartShopping} />
+                  </Nav.Link>
+                )} */}
+                {/* {user && (
+                  <Nav.Link style={navBellBtnStyle}>
+                    <FontAwesomeIcon icon={faBell} />
+                    <sup style={{ fontSize: "14px" }}>1</sup>
+                  </Nav.Link>
+                )} */}
               </Nav>
             </div>
           </Navbar.Collapse>
@@ -283,3 +294,4 @@ export default function NavbarComp() {
     </div>
   );
 }
+export default NavbarComp;

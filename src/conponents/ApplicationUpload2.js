@@ -22,8 +22,12 @@ import { storage } from "../utils/firebase";
 // import { faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 
 import ProgressBar from "react-bootstrap/ProgressBar";
+import NavbarHome from "../elements/navbarHome";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../utils/firebase";
 
 function ApplicationUpload2() {
+  const [user] = useAuthState(auth);
   const cardStyle = {
     width: "75%",
     color: "black",
@@ -78,11 +82,9 @@ function ApplicationUpload2() {
     border: "none",
   };
 
-  //檔案上傳
   const [progress, setProgress] = useState(0);
 
   const formHandler = (e) => {
-    // preventDefault()阻止預設行為
     e.preventDefault();
     const file = e.target[0].files[0];
     uploadFiles(file);
@@ -90,12 +92,9 @@ function ApplicationUpload2() {
 
   const uploadFiles = (file) => {
     if (!file) return;
-    // ref路徑
     const storageRef = ref(storage, `/AffidavitLetter/${file.name}`);
-    // Resumable uploads work by sending multiple requests
     const UploadTask = uploadBytesResumable(storageRef, file);
 
-    //snapshot是指快照，把資料庫裡面的值拍照起來，然後呈現出來
     UploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -112,7 +111,8 @@ function ApplicationUpload2() {
   };
   return (
     <div style={{ paddingBottom: "80px" }}>
-      <Navbar />
+      {user && <Navbar />}
+      {!user && <NavbarHome />}
       <TitleSec name="公益團體申請資料上傳" />
       <TitleStep name="STEP2&nbsp;-&nbsp;上傳切結書一份" />
       <Card style={cardStyle}>
@@ -175,20 +175,22 @@ function ApplicationUpload2() {
           <ButtonLink to="/ApplicationUpload3" name="下一步" />
         )}
         {progress !== 100 && (
-        <button
-        style={{
-            color: "#ffffff",
-            backgroundColor: "lightgray",
-            borderRadius: "30px",
-            lineHeight: "30px",
-            fontSize: "16px",
-            width: "120px",
-            textAlign: "center",
-            height: "35px",
-            fontWeight: "bold",
-            border: "none"
-          }}
-      >下一步</button>
+          <button
+            style={{
+              color: "#ffffff",
+              backgroundColor: "lightgray",
+              borderRadius: "30px",
+              lineHeight: "30px",
+              fontSize: "16px",
+              width: "120px",
+              textAlign: "center",
+              height: "35px",
+              fontWeight: "bold",
+              border: "none",
+            }}
+          >
+            下一步
+          </button>
         )}
       </div>
     </div>

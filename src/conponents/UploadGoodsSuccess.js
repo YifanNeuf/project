@@ -9,8 +9,17 @@ import ButtonLink from "../elements/button";
 
 import SuccessInfo from '../elements/successInfo';
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router";
+
 function UploadSuccess() {
 
+    const navigate = useNavigate("");
+    const [user] = useAuthState(auth);
+    if (!user){
+      navigate("/loginin");
+    }
     const cardStyle = {
         width: "50%",
         color: "black",
@@ -49,7 +58,7 @@ function UploadSuccess() {
                
                     <SuccessInfo name="物資已上架成功！" name2="（可至 物資一覽表 查看已上架物資。）" />
                     <div style={btnStyle}>
-                        <ButtonLink to="/homeAdmin" name="回首頁" />&nbsp;
+                        <ButtonLink to="/uploadGoods" name="繼續上架" />&nbsp;
                         <ButtonLink to="/allGoods" name="物資一覽表" />
                     </div>
 
