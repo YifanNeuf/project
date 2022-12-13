@@ -5,8 +5,8 @@ import TitleSec from "../elements/titleSec";
 import TitleStep from "../elements/titleStep";
 import FromSelect from "../elements/fromSelect";
 import Search from "../elements/search";
-import DemandStep1 from "../elements/demandStep1";
 import ButtonLink from "../elements/button";
+import DemandStep1 from "../elements/demandStep1";
 import PaginationList from "../elements/paginationList";
 import Navbar from "../elements/navbar";
 import Row from "react-bootstrap/Row";
@@ -38,6 +38,7 @@ function UploadDemand() {
     marginTop: "40px"
   };
 
+  // 抓supply DB data
   const [details, setDetails] = useState([])
 
   useEffect(() => {
@@ -54,12 +55,27 @@ function UploadDemand() {
   //   console.log(item)
   // )
 
+  
+  let cart = [];
+  // if (cart) {
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  // }
+
   return (
     <div>
       <Navbar />
       <TitleSec name="刊登物資需求" />
       <Container>
         <TitleStep name="STEP1&nbsp;-&nbsp;選擇需求物資" />
+        {details.map((item, index) => (
+          <DemandStep1
+            key={index}
+            id={item.id}
+            name={item.data.name}
+            store={item.data.store}
+            cart={cart}
+          />
+        ))}
         {/* <Row>
           <Col>
             <DemandStep1 />
@@ -71,14 +87,6 @@ function UploadDemand() {
             <DemandStep1 />
           </Col>
         </Row> */}
-        {details.map((item, index) => (
-          <DemandStep1
-            key={index}
-            id={item.id}
-            name={item.data.name}
-            store={item.data.store}
-          />
-        ))}
         
         <PaginationList />
         <div
@@ -89,11 +97,11 @@ function UploadDemand() {
             marginRight: "55%",
           }}
         >
-          <Link to="/demandstep2" state={{ from: "occupation" }}>
+          {/* <Link to="/demandstep2" state={{ from: "tmp" }}>
             <button style={subBtnStyle}>下一步</button>
-          </Link>
+          </Link> */}
           
-          {/* <ButtonLink to"/demandstep2" name="下一步"> */}
+          <ButtonLink to="/demandstep2" name="下一步" />
         </div>
       </Container>
     </div>

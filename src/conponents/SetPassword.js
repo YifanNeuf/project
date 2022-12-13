@@ -6,13 +6,12 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
 import TitleStep from "../elements/titleStep";
-import ButtonLink from "../elements/button";
 import { useState } from "react";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
@@ -21,46 +20,40 @@ import NavbarHome from "../elements/navbarHome";
 
 function SetPassword() {
   const [user] = useAuthState(auth);
-  // const auth = getAuth(app);
   const navigate = useNavigate();
-  // const [user] = useAuthState(auth);
-  // if (!user){
-  //   navigate("/loginin");
-  // }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  // const [user] = useAuthState(auth);
 
   const signUp = () => {
   if (password === checkPassword) {
-      createUserWithEmailAndPassword(auth, "test@email.com", password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          // console.log(user);
-          addUser(user);
-          navigate("/passwordSuccess");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          // const errorMessage = error.message;
-          // alert(errorCode);
-          // alert(errorMessage);
-          switch (errorCode) {
-            case "auth/email-already-in-use":
-              setErrorMessage("信箱已存在");
-              break;
-            case "auth/invalid-email":
-              setErrorMessage("信箱格式不正確");
-              break;
-            case "auth/weak-password":
-              setErrorMessage("密碼強度不足");
-              break;
-            default:
-          }
-        });
+    createUserWithEmailAndPassword(auth, "test@email.com", password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // console.log(user);
+        addUser(user);
+        navigate("/passwordSuccess");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        // const errorMessage = error.message;
+        // alert(errorCode);
+        // alert(errorMessage);
+        switch (errorCode) {
+          case "auth/email-already-in-use":
+            setErrorMessage("信箱已存在");
+            break;
+          case "auth/invalid-email":
+            setErrorMessage("信箱格式不正確");
+            break;
+          case "auth/weak-password":
+            setErrorMessage("密碼強度不足");
+            break;
+          default:
+        }
+      });
     } else {
       alert("兩次密碼輸入不相同，請重新輸入。");
     }

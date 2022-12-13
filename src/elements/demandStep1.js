@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import img from "../img/tablet.jpg";
 
-function DemandStep1({id, name, store}) {
+function DemandStep1({id, name, store, cart}) {
   const card = {
     marginBottom: "20px",
     marginLeft: "10px",
@@ -24,19 +24,39 @@ function DemandStep1({id, name, store}) {
     marginLeft: "15%",
     marginRight: "75%",
   };
-  const buttonStyle = {
-    border: "none"
-  }
 
-  const [goodsSelect, setGoodsSelect] = useState([])
+  let list = JSON.parse(localStorage.getItem('cart'));
+  // console.log(list)
 
+  const [buttonStyle, setButtonStyle] = useState({border: "none"})
+  const [state, setState] = useState(false)
+
+  // 測試點選返回按鈕後留著上一次的點選紀錄
+  // useEffect(() => {
+  //   if (list.includes(id)) {
+  //     setButtonStyle({...buttonStyle, backgroundColor: "lightgreen"});
+  //     setState(true);
+  //   }
+  // }, []);
+  
   function handleSelect() {
-    setGoodsSelect()
+    if (!state) {
+      setButtonStyle({...buttonStyle, backgroundColor: "lightgreen"});
+      cart.push(id);
+      setState(true);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+    else {
+      setButtonStyle({border: "none"});
+      setState(false);
+      cart.pop();
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   }
 
   return (
     <div>
-      <button style={buttonStyle} onClick={() => console.log(`點選了${name}`)}>
+      <button style={buttonStyle} onClick={handleSelect}>
         <Card style={card}>
           <Card.Img style={goodsImgStyle} variant="top" src={img} />
           <Card.Body style={contentStyle}>
@@ -53,7 +73,6 @@ function DemandStep1({id, name, store}) {
           </Card.Body>
         </Card>
       </button>
-      
     </div>
   );
 }
