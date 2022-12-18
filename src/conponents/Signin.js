@@ -31,9 +31,9 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // 清除 localstorage
-  let userEmail = JSON.parse(localStorage.getItem('email'));
+  let userEmail = JSON.parse(localStorage.getItem("email"));
   if (userEmail) {
     localStorage.clear();
   }
@@ -169,7 +169,7 @@ function Login() {
   };
   return (
     <div style={loginBodyStyle}>
-      <img style={{width: "100%"}} src={bgphoto} alt="bgPhoto" />
+      <img style={{ width: "100%" }} src={bgphoto} alt="bgPhoto" />
       <div style={loginLogoStyle}>
         <img style={loginLogoStyle} src={logo} alt="logoPhoto" />
       </div>

@@ -93,7 +93,7 @@ function CharityInfo() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     //mail接值之後要修
-    const taskDocRef = doc(db, "charity", "Tiuj6QvdQpCcHJlc5MaY");
+    const taskDocRef = doc(db, "charity", "BJ57wukJofmC6epXqz4G");
 
     // console.log(taskDocRef._key.id);
     console.log(taskDocRef);

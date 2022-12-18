@@ -5,11 +5,13 @@ import TitleSec from "../elements/titleSec";
 import { Card, FormControl } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
-import { addDoc, collection, query, onSnapshot } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import TitleStep from "../elements/titleStep";
+import ButtonLink from "../elements/button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Form from "react-bootstrap/Form";
 

@@ -18,9 +18,9 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-function Task({ id, email, level }) {
+
+function Task({ id, email, level, name }) {
   const [user] = useAuthState(auth);
   return (
     <div>
@@ -88,8 +88,8 @@ function Task({ id, email, level }) {
                     使用者
                   </div>
                 )}
-                {!user.displayName && <h6>使用者，您好！</h6>}
-                {user.displayName && <h6>{user.displayName}，您好！</h6>}
+                {/* {!user.displayName && <h6>使用者，您好！</h6>} */}
+                <h6>{name}，您好！</h6>
                 <Button
                   onClick={() => auth.signOut()}
                   style={{
@@ -114,7 +114,7 @@ function Task({ id, email, level }) {
               </NavDropdown.Item>
               <NavDropdown.Item
                 as={Link}
-                to="/donateRecord"
+                to="/donateRecordPage"
                 href="#action/3.3"
                 style={{ fontWeight: "bold", color: "#002B5B" }}
               >
@@ -222,6 +222,7 @@ function Task({ id, email, level }) {
             </Nav.Link>
           </Col>
         )} */}
+
         {email === user.email && level === "charity" && (
           <Col
             style={{ padding: "0px", textAlign: "left", paddingRight: "15px" }}
@@ -263,8 +264,9 @@ function Task({ id, email, level }) {
                     使用者
                   </div>
                 )}
-                {!user.displayName && <h6>使用者，您好！</h6>}
-                {user.displayName && <h6>{user.displayName}，您好！</h6>}
+                {/* {!user.displayName && <h6>使用者，您好！</h6>}
+                {user.displayName && <h6>{user.displayName}，您好！</h6>} */}
+                <h6>{name}，您好！</h6>
                 <Button
                   onClick={() => auth.signOut()}
                   style={{
@@ -276,6 +278,15 @@ function Task({ id, email, level }) {
                 >
                   登出
                 </Button>
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  as={Link}
+                  to="/profile"
+                  href="#action/3.4"
+                  style={{ fontWeight: "bold", color: "#002B5B" }}
+                >
+                  個人檔案管理
+                </NavDropdown.Item>
               </div>
             </NavDropdown>
           </Col>
@@ -383,12 +394,11 @@ function Task({ id, email, level }) {
                     使用者
                   </div>
                 )}
-                {!user.displayName && <h6>使用者，您好！</h6>}
-                {user.displayName && <h6>{user.displayName}，您好！</h6>}
+                {/* {!user.displayName && <h6>使用者，您好！</h6>}
+                {user.displayName && <h6>{user.displayName}，您好！</h6>} */}
+                <h6>{name}，您好！</h6>
                 <Button
-                  onClick={() => {
-                    auth.signOut()
-                  }}
+                  onClick={() => auth.signOut()}
                   style={{
                     backgroundColor: "#002b5b",
                     border: "none",
@@ -398,6 +408,15 @@ function Task({ id, email, level }) {
                 >
                   登出
                 </Button>
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  as={Link}
+                  to="/profile"
+                  href="#action/3.4"
+                  style={{ fontWeight: "bold", color: "#002B5B" }}
+                >
+                  個人檔案管理
+                </NavDropdown.Item>
               </div>
             </NavDropdown>
           </Col>
@@ -562,6 +581,7 @@ function NavbarComp() {
                     key={item.id}
                     level={item.data.level}
                     email={item.data.email}
+                    name={item.data.name}
                   />
                 ))}
 

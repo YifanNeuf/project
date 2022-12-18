@@ -73,7 +73,8 @@ function UploadDemand() {
           received: "",
           state: "徵求中",
           store: demandList[i].store,
-          uid: uuidv4(),
+          uid: user.uid,
+          id: uuidv4(),
         });
       }
       navigate("/myDemand");

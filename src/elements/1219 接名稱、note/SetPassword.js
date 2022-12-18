@@ -6,54 +6,90 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
 import TitleStep from "../elements/titleStep";
-import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { addDoc, collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
-
 import NavbarHome from "../elements/navbarHome";
+import { Container, Row } from "react-bootstrap";
+import { Col } from "react-bootstrap";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 function SetPassword() {
   const [user] = useAuthState(auth);
+  // const auth = getAuth(app);
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  // const [user] = useAuthState(auth);
+  // if (!user){
+  //   navigate("/loginin");
+  // }
+  const [email, setEmail] = useState("test1218@email.com"); // 應為連結傳進來的email，目前先預設假email
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  // const [user] = useAuthState(auth);
+  const [charityData, setCharityData] = useState();
+  const [charityName2, setCharityName2] = useState();
+  // accquire charity data: get charity's name
+  useEffect(() => {
+    const q = query(
+      collection(db, "charity"),
+      where("info.mail", "==", email)
+    );
+    onSnapshot(q, (querySnapshot) => {
+      setCharityData(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+  }, [email]);
+
+  // 更新 chairyName
+  useEffect(() => {
+    if (charityData) {
+      setCharityName2(charityData[0].data.info.name);
+    }
+    else {
+      setCharityName2('');
+    }
+  }, [charityData]);
+  console.log(charityName2);
 
   const signUp = () => {
-  if (password === checkPassword) {
-    createUserWithEmailAndPassword(auth, "test@email.com", password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // console.log(user);
-        addUser(user);
-        navigate("/passwordSuccess");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        // const errorMessage = error.message;
-        // alert(errorCode);
-        // alert(errorMessage);
-        switch (errorCode) {
-          case "auth/email-already-in-use":
-            setErrorMessage("信箱已存在");
-            break;
-          case "auth/invalid-email":
-            setErrorMessage("信箱格式不正確");
-            break;
-          case "auth/weak-password":
-            setErrorMessage("密碼強度不足");
-            break;
-          default:
-        }
-      });
+    if (password === checkPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          // console.log(user);
+          addUser(user);
+          navigate("/passwordSuccess");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          // const errorMessage = error.message;
+          // alert(errorCode);
+          // alert(errorMessage);
+          switch (errorCode) {
+            case "auth/email-already-in-use":
+              setErrorMessage("信箱已存在");
+              break;
+            case "auth/invalid-email":
+              setErrorMessage("信箱格式不正確");
+              break;
+            case "auth/weak-password":
+              setErrorMessage("密碼強度不足");
+              break;
+            default:
+          }
+        });
     } else {
       alert("兩次密碼輸入不相同，請重新輸入。");
     }
@@ -65,7 +101,8 @@ function SetPassword() {
       addDoc(collection(db, "users"), {
         email: email,
         level: "charity",
-        uid: user.uid
+        uid: user.uid,
+        name: charityName2
       });
     } catch (err) {
       console.log(err);
@@ -100,7 +137,7 @@ function SetPassword() {
     paddingLeft: "8%",
     paddingRight: "8%",
     letterSpacing: "1px",
-    marginTop: "30px"
+    marginTop: "30px",
   };
   const labelStyle = {
     width: "25%",
@@ -124,7 +161,7 @@ function SetPassword() {
     height: "35px",
     fontWeight: "bold",
     marginLeft: "46.5%",
-    marginTop: "40px"
+    marginTop: "40px",
   };
   const errorMessageStyle = {
     fontSize: "16px",
@@ -140,17 +177,59 @@ function SetPassword() {
       {user && <Navbar />}
       {!user && <NavbarHome />}
       <TitleSec name="基本資料設定" />
-      <TitleStep name="STEP1&nbsp;-&nbsp;設定密碼" />
-      <Card style={cardStyle}>
-        <Card.Body>
+      <Container style={{ marginBottom: "50px" }}>
+        {/* <Row style={{ fontSize: "35px", marginBottom: "30px" }}>
+          <ProgressBar
+            style={{
+              position: "absolute",
+              marginTop: "19px",
+              zIndex: "1",
+              width: "860px",
+              marginLeft: "230px",
+            }}
+            now={49}
+          ></ProgressBar>
+          <Col style={{textAlign: "center", marginLeft: "100px", zIndex: "2"}}>
+            <FontAwesomeIcon
+              style={{ color: "#26aa50", marginRight: "60px", backgroundColor: "white", borderRadius: "100%" }}
+              icon={faCircleCheck}
+            />
+            <br />
+            <span style={{ fontSize: "15px", marginRight: "60px" }}>
+              開始
+            </span>
+          </Col>
+          <Col style={{ textAlign: "right", zIndex: "2" }}>
+            <FontAwesomeIcon
+              style={{ color: "lightgray", marginRight: "95px" }}
+              icon={faCircleCheck}
+            />
+            <br />
+            <span style={{ fontSize: "15px", marginRight: "85px" }}>
+              設定密碼
+            </span>
+          </Col>
+          <Col
+            style={{ zIndex: "2", textAlign: "right", marginRight: "190px" }}
+          >
+            <FontAwesomeIcon
+              style={{ color: "lightgray", marginRight: "25px" }}
+              icon={faCircleCheck}
+            />
+            <br />
+            <span style={{ fontSize: "15px" }}>填寫機構簡介</span>
+          </Col>
+        </Row> */}
+        <TitleStep name="STEP1&nbsp;-&nbsp;設定密碼" />
+        <Card style={cardStyle}>
+          <Card.Body>
             <InputGroup className="mb-3">
               <Form.Label htmlFor="basic-url" style={labelStyle}>
                 帳號：
               </Form.Label>
               <Form.Control
                 style={inputStyle}
-                placeholder="test@email.com"
-                // value={}
+                value={email}
                 aria-label="Username"
                 aria-describedby="basic-addon1"
                 readOnly
@@ -208,14 +287,15 @@ function SetPassword() {
               )}
             </InputGroup>
             {errorMessage && <p style={errorMessageStyle}>{errorMessage}</p>}
-        </Card.Body>
-      </Card>
-      <div>
-        {/* <ButtonLink to="/passwordSuccess" name="確定" /> */}
-        <button onClick={signUp} style={subBtnStyle}>
-          送出
-        </button>
-      </div>
+          </Card.Body>
+        </Card>
+        <div>
+          {/* <ButtonLink to="/passwordSuccess" name="確定" /> */}
+          <button onClick={signUp} style={subBtnStyle}>
+            送出
+          </button>
+        </div>
+      </Container>
     </div>
   );
 }

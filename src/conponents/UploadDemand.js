@@ -21,22 +21,24 @@ import { Link } from "react-router-dom";
 function UploadDemand() {
   const navigate = useNavigate("");
   const [user] = useAuthState(auth);
-  if (!user){
+  if (!user) {
     navigate("/loginin");
   }
 
   // 抓supply DB data
-  const [details, setDetails] = useState([])
+  const [details, setDetails] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, 'supply'))
+    const q = query(collection(db, "supply"));
     onSnapshot(q, (querySnapshot) => {
-      setDetails(querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        data: doc.data()
-      })))
-    })
-  }, [])
+      setDetails(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+  }, []);
 
   // details.map((item) =>
   //   console.log(item)
@@ -72,8 +74,8 @@ function UploadDemand() {
             <DemandStep1 />
           </Col>
         </Row> */}
-        
-        <PaginationList />
+
+        {/* <PaginationList /> */}
         <div
           style={{
             marginTop: "25px",
