@@ -6,14 +6,12 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
 import TitleStep from "../elements/titleStep";
-import ButtonLink from "../elements/button";
-import { useState } from "react";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { addDoc, collection, query, where, onSnapshot} from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "../utils/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
@@ -24,16 +22,29 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 
 function SetPassword() {
   const [user] = useAuthState(auth);
-  // const auth = getAuth(app);
   const navigate = useNavigate();
-  // const [user] = useAuthState(auth);
-  // if (!user){
-  //   navigate("/loginin");
-  // }
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(""); // 預設email
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [charityData, setCharityData] = useState();
+
+  // accquire charity data: get charity's name
+  useEffect(() => {
+    const q = query(
+      collection(db, "charity"),
+      where("info.mail", "==", userEmail)
+    );
+    onSnapshot(q, (querySnapshot) => {
+      setCharityData(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+  }, []);
   // const [user] = useAuthState(auth);
 
   const signUp = () => {
@@ -42,15 +53,11 @@ function SetPassword() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          // console.log(user);
           addUser(user);
           navigate("/passwordSuccess");
         })
         .catch((error) => {
           const errorCode = error.code;
-          // const errorMessage = error.message;
-          // alert(errorCode);
-          // alert(errorMessage);
           switch (errorCode) {
             case "auth/email-already-in-use":
               setErrorMessage("信箱已存在");
