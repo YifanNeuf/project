@@ -386,7 +386,9 @@ function Task({ id, email, level }) {
                 {!user.displayName && <h6>使用者，您好！</h6>}
                 {user.displayName && <h6>{user.displayName}，您好！</h6>}
                 <Button
-                  onClick={() => auth.signOut()}
+                  onClick={() => {
+                    auth.signOut()
+                  }}
                   style={{
                     backgroundColor: "#002b5b",
                     border: "none",

@@ -6,64 +6,54 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Navbar from "../elements/navbar";
 import TitleSec from "../elements/titleSec";
 import TitleStep from "../elements/titleStep";
-import ButtonLink from "../elements/button";
 import { useState } from "react";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "../utils/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
+
 import NavbarHome from "../elements/navbarHome";
-import { Container, Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import ProgressBar from "react-bootstrap/ProgressBar";
 
 function SetPassword() {
   const [user] = useAuthState(auth);
-  // const auth = getAuth(app);
   const navigate = useNavigate();
-  // const [user] = useAuthState(auth);
-  // if (!user){
-  //   navigate("/loginin");
-  // }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  // const [user] = useAuthState(auth);
 
   const signUp = () => {
-    if (password === checkPassword) {
-      createUserWithEmailAndPassword(auth, "test@email.com", password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          // console.log(user);
-          addUser(user);
-          navigate("/passwordSuccess");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          // const errorMessage = error.message;
-          // alert(errorCode);
-          // alert(errorMessage);
-          switch (errorCode) {
-            case "auth/email-already-in-use":
-              setErrorMessage("信箱已存在");
-              break;
-            case "auth/invalid-email":
-              setErrorMessage("信箱格式不正確");
-              break;
-            case "auth/weak-password":
-              setErrorMessage("密碼強度不足");
-              break;
-            default:
-          }
-        });
+  if (password === checkPassword) {
+    createUserWithEmailAndPassword(auth, "test@email.com", password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // console.log(user);
+        addUser(user);
+        navigate("/passwordSuccess");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        // const errorMessage = error.message;
+        // alert(errorCode);
+        // alert(errorMessage);
+        switch (errorCode) {
+          case "auth/email-already-in-use":
+            setErrorMessage("信箱已存在");
+            break;
+          case "auth/invalid-email":
+            setErrorMessage("信箱格式不正確");
+            break;
+          case "auth/weak-password":
+            setErrorMessage("密碼強度不足");
+            break;
+          default:
+        }
+      });
     } else {
       alert("兩次密碼輸入不相同，請重新輸入。");
     }
@@ -75,7 +65,7 @@ function SetPassword() {
       addDoc(collection(db, "users"), {
         email: email,
         level: "charity",
-        uid: user.uid,
+        uid: user.uid
       });
     } catch (err) {
       console.log(err);
@@ -110,7 +100,7 @@ function SetPassword() {
     paddingLeft: "8%",
     paddingRight: "8%",
     letterSpacing: "1px",
-    marginTop: "30px",
+    marginTop: "30px"
   };
   const labelStyle = {
     width: "25%",
@@ -134,7 +124,7 @@ function SetPassword() {
     height: "35px",
     fontWeight: "bold",
     marginLeft: "46.5%",
-    marginTop: "40px",
+    marginTop: "40px"
   };
   const errorMessageStyle = {
     fontSize: "16px",
@@ -150,52 +140,9 @@ function SetPassword() {
       {user && <Navbar />}
       {!user && <NavbarHome />}
       <TitleSec name="基本資料設定" />
-      <Container style={{ marginBottom: "50px" }}>
-        <Row style={{ fontSize: "35px", marginBottom: "30px" }}>
-          <ProgressBar
-            style={{
-              position: "absolute",
-              marginTop: "19px",
-              zIndex: "1",
-              width: "860px",
-              marginLeft: "230px",
-            }}
-            now={49}
-          ></ProgressBar>
-          <Col style={{textAlign: "center", marginLeft: "100px", zIndex: "2"}}>
-            <FontAwesomeIcon
-              style={{ color: "#26aa50", marginRight: "60px", backgroundColor: "white", borderRadius: "100%" }}
-              icon={faCircleCheck}
-            />
-            <br />
-            <span style={{ fontSize: "15px", marginRight: "60px" }}>
-              開始
-            </span>
-          </Col>
-          <Col style={{ textAlign: "right", zIndex: "2" }}>
-            <FontAwesomeIcon
-              style={{ color: "lightgray", marginRight: "95px" }}
-              icon={faCircleCheck}
-            />
-            <br />
-            <span style={{ fontSize: "15px", marginRight: "85px" }}>
-              設定密碼
-            </span>
-          </Col>
-          <Col
-            style={{ zIndex: "2", textAlign: "right", marginRight: "190px" }}
-          >
-            <FontAwesomeIcon
-              style={{ color: "lightgray", marginRight: "25px" }}
-              icon={faCircleCheck}
-            />
-            <br />
-            <span style={{ fontSize: "15px" }}>填寫機構簡介</span>
-          </Col>
-        </Row>
-        <TitleStep name="STEP1&nbsp;-&nbsp;設定密碼" />
-        <Card style={cardStyle}>
-          <Card.Body>
+      <TitleStep name="STEP1&nbsp;-&nbsp;設定密碼" />
+      <Card style={cardStyle}>
+        <Card.Body>
             <InputGroup className="mb-3">
               <Form.Label htmlFor="basic-url" style={labelStyle}>
                 帳號：
@@ -261,15 +208,14 @@ function SetPassword() {
               )}
             </InputGroup>
             {errorMessage && <p style={errorMessageStyle}>{errorMessage}</p>}
-          </Card.Body>
-        </Card>
-        <div>
-          {/* <ButtonLink to="/passwordSuccess" name="確定" /> */}
-          <button onClick={signUp} style={subBtnStyle}>
-            送出
-          </button>
-        </div>
-      </Container>
+        </Card.Body>
+      </Card>
+      <div>
+        {/* <ButtonLink to="/passwordSuccess" name="確定" /> */}
+        <button onClick={signUp} style={subBtnStyle}>
+          送出
+        </button>
+      </div>
     </div>
   );
 }
