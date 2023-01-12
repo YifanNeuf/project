@@ -18,6 +18,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
 import NavbarHome from "../elements/navbarHome";
+import NavbarNoFunction from "../elements/navbarNoFunction";
 
 function CharityInfo() {
   const navigate = useNavigate("");
@@ -93,7 +94,7 @@ function CharityInfo() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     //mail接值之後要修
-    const taskDocRef = doc(db, "charity", "BJ57wukJofmC6epXqz4G");
+    const taskDocRef = doc(db, "charity", "IWcZd3oK1GRWw3L0mNVB");
 
     // console.log(taskDocRef._key.id);
     console.log(taskDocRef);
@@ -118,8 +119,7 @@ function CharityInfo() {
 
   return (
     <div>
-    {user && <Navbar />}
-    {!user && <NavbarHome />}
+    <NavbarNoFunction />
       {/* <form className='form' onSubmit={handleSubmit}> */}
 
       <form className="form">
