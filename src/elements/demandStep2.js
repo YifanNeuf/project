@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import { collection, query, onSnapshot, where } from "firebase/firestore";
 import { db } from "../utils/firebase";
 
-function DemandStep2({id, name, store, user, demandList, setDemandList}) {
+function DemandStep2({id, name, store, user, price, demandList, setDemandList}) {
   const card = {
     marginBottom: "20px",
     marginLeft: "15%",
@@ -134,16 +134,15 @@ function DemandStep2({id, name, store, user, demandList, setDemandList}) {
         let newDemandList = demandList.filter((e) => {
           return e.id !== id;
         })
-        newDemandList.push({id, name, store, count: value, demandInfo: demandInfoValue, charityName: charityName2})
+        newDemandList.push({id, name, store, price, count: value, demandInfo: demandInfoValue, charityName: charityName2})
         setDemandList(newDemandList)
         localStorage.setItem("demandList", JSON.stringify(newDemandList));
       }
       else { // 不存在前一個相同id的資料
-        demandList.push({id, name, store, count: value, demandInfo: demandInfoValue, charityName: charityName2})
+        demandList.push({id, name, store, price, count: value, demandInfo: demandInfoValue, charityName: charityName2})
         localStorage.setItem("demandList", JSON.stringify(demandList));
       }
     }
-    
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import img from "../img/tablet.jpg";
 
-function ProductStep3() {
+function ProductStep3({id, name, store, count, quantity, description, charity, subtotal, price}) {
   const contentStyle = {
     textAlign: "left",
     marginLeft: "30px",
@@ -32,25 +32,29 @@ function ProductStep3() {
   return (
     <div>
       <Card style={card}>
-        <Card.Img style={goodsImgStyle} variant="top" src={img} />
+        <Card.Img style={goodsImgStyle} variant="top" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Picture_icon_BLACK.svg" />
         <Card.Body style={contentStyle}>
           <Card.Title>
-            物資名稱：<b>ASUS 平板電腦</b>
+            物資名稱：<b>{name}</b>
           </Card.Title>
           <hr></hr>
           <Card.Text style={{ color: "#6C6C6C" }}>
-            需求機構：鈺惠協會
+            需求機構：{charity}
             <br />
-            捐贈數量：<span style={userTextStyle}>10</span>
+            需求物資數量：{quantity}
             <br />
-            需求說明：提供給偏鄉孩童授課使用
+            單價：${price}
+            <br />
+            需求說明：{description}
             <br />
             物資提供商家：
-            <a style={demandHrefStyle} href="#">
-              奕慈麵包坊
-            </a>
+            <a style={demandHrefStyle} href="#">{store}</a>
+          </Card.Text>
+          <hr></hr>
+          <Card.Text style={{ color: "#6C6C6C" }}>
+            認購數量：<span style={userTextStyle}>{count}</span>
             <br />
-            單價：$203／台
+            小計：${subtotal}
           </Card.Text>
         </Card.Body>
       </Card>

@@ -158,7 +158,7 @@ function Task({ id, email, level, name }) {
                 textAlign: "center",
               }}
             >
-              我要捐贈
+              我要認購
             </Nav.Link>
           </Col>
         )}
@@ -289,6 +289,29 @@ function Task({ id, email, level, name }) {
                 </NavDropdown.Item>
               </div>
             </NavDropdown>
+          </Col>
+        )}
+
+        {email === user.email && level === "charity" && (
+          <Col style={{ padding: "0px", paddingLeft: "10px" }}>
+            <Nav.Link
+              as={Link}
+              to="/donate"
+              style={{
+                color: "#ffffff",
+                backgroundColor: "#002B5B",
+                borderRadius: "30px",
+                marginTop: "16px",
+                marginBottom: "20px",
+                // marginLeft: "10px",
+                lineHeight: "16px",
+                fontSize: "16px",
+                width: "100px",
+                textAlign: "center",
+              }}
+            >
+              我要取件
+            </Nav.Link>
           </Col>
         )}
       </Row>

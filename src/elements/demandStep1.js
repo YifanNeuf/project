@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 // import img from "../img/tablet.jpg";
 import { Col } from "react-bootstrap";
 
-function DemandStep1({ id, name, store, cart, setCart }) {
+function DemandStep1({ id, name, store, price, cart, setCart }) {
   const card = {
     marginBottom: "15px",
     marginLeft: "15px",
@@ -53,7 +53,7 @@ function DemandStep1({ id, name, store, cart, setCart }) {
         width: "400px",
         margin: "15px",
       });
-      cart.push({ id, name, store });
+      cart.push({ id, name, store, price });
       localStorage.setItem("cart", JSON.stringify(cart));
       setState(true);
     } else {

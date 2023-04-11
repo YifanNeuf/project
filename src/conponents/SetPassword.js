@@ -28,7 +28,7 @@ function SetPassword() {
   // if (!user){
   //   navigate("/loginin");
   // }
-  const [emailCharity, setEmailCharity] = useState("123@email.com"); // 應為連結傳進來的email，目前先預設假email
+  const [emailCharity, setEmailCharity] = useState("charityb@email.com"); // 應為連結傳進來的email，目前先預設假email
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -68,11 +68,15 @@ function SetPassword() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          // console.log(user);
           addUser(user);
           navigate("/passwordSuccess");
         })
         .catch((error) => {
           const errorCode = error.code;
+          // const errorMessage = error.message;
+          // alert(errorCode);
+          // alert(errorMessage);
           switch (errorCode) {
             case "auth/email-already-in-use":
               setErrorMessage("信箱已存在");
@@ -100,14 +104,10 @@ function SetPassword() {
         uid: user.uid,
         name: charityName2
       });
-      signOut();
+      // auth.signOut();
     } catch (err) {
       console.log(err);
     }
-  }
-
-  function signOut() {
-    auth.signOut();
   }
 
   // const handleSubmit = async (e) => {
@@ -178,7 +178,7 @@ function SetPassword() {
       <NavbarNoFunction />
       <TitleSec name="基本資料設定" />
       <Container style={{ marginBottom: "50px" }}>
-        {/* <Row style={{ fontSize: "35px", marginBottom: "30px" }}>
+        <Row style={{ fontSize: "35px", marginBottom: "30px" }}>
           <ProgressBar
             style={{
               position: "absolute",
@@ -219,7 +219,7 @@ function SetPassword() {
             <br />
             <span style={{ fontSize: "15px" }}>填寫機構簡介</span>
           </Col>
-        </Row> */}
+        </Row>
         <TitleStep name="STEP1&nbsp;-&nbsp;設定密碼" />
         <Card style={cardStyle}>
           <Card.Body>

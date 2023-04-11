@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 // import ListGroup from "react-bootstrap/ListGroup";
 import Pagination from "react-bootstrap/Pagination";
 import "../App.css";
@@ -14,6 +14,8 @@ import Navbar from "../elements/navbar";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import NavbarHome from "../elements/navbarHome";
+import { collection, query, onSnapshot } from "firebase/firestore";
+import { db } from "../utils/firebase";
 
 const DonateList = () => {
   const [user] = useAuthState(auth);
@@ -33,15 +35,55 @@ const DonateList = () => {
     marginRight: "62%",
     marginTop: "20px",
   };
+
+  // 抓 demand DB data
+  const [details, setDetails] = useState([]);
+
+  useEffect(() => {
+    const q = query(collection(db, "demand"));
+    onSnapshot(q, (querySnapshot) => {
+      setDetails(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+  }, []);
+
+  // console.log(details)
+
+  // details.map((item) =>
+  //   console.log(item)
+  // )
+
+  //set up donateCart
+  const [donateCart, setDonateCart] = useState([]);
+
   return (
     <div>
     {user && <Navbar />}
     {!user && <NavbarHome />}
       <div style={donPageStyle}>
-        <TitleSec name="捐贈物資列表" />
+        <TitleSec name="認購物資列表" />
         <Container>
           <TitleStep name="STEP1&nbsp;-&nbsp;選擇捐贈物資" />
-          <div style={selectPageStyle}>
+            {details.map((item, index) => (
+              <ProductStep1
+                key={index}
+                id={item.id}
+                name={item.data.name}
+                pic={item.data.pic}
+                store={item.data.store}
+                quantity={item.data.quantity}
+                charity={item.data.charity}
+                description={item.data.description}
+                price={item.data.price}
+                donateCart={donateCart}
+                setDonateCart={setDonateCart}
+              />
+            ))}
+          {/* <div style={selectPageStyle}>
             <div style={{ width: "50%" }}>
               <FromSelect />
             </div>
@@ -49,7 +91,7 @@ const DonateList = () => {
             <div style={{ width: "50%" }}>
               <Search />
             </div>
-          </div>
+          </div> */}
           {/* <div style={goodsPageStyle}>
             <ProductStep1 />
             <ProductStep1 />
@@ -60,7 +102,7 @@ const DonateList = () => {
             <ProductStep1 />
             <ProductStep1 />
           </div> */}
-          <Row>
+          {/* <Row>
             <Col>
               <ProductStep1 />
             </Col>
@@ -81,7 +123,7 @@ const DonateList = () => {
             <Col>
               <ProductStep1 />
             </Col>
-          </Row>
+          </Row> */}
           {/* <PaginationList /> */}
           {user && (
             <div
